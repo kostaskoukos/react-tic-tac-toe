@@ -72,6 +72,19 @@ export default function App() {
             />
           ))}
         </div>
+        {winner && (
+          <>
+            <h2>{winner.toUpperCase()} won!</h2>
+            <button
+              onClick={() => {
+                setBoard(Array(9).fill(undefined));
+                setWinner(undefined)
+              }}
+            >
+              reset
+            </button>
+          </>
+        )}
       </main>
     </>
   );
