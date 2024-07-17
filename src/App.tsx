@@ -54,8 +54,10 @@ export default function App() {
 			const [x, y, z] = winningLines[i];
 			if (b[x] === "x" && b[y] === "x" && b[z] === "x") {
 				setWinner(p2 || "x");
+				return;
 			} else if (b[x] === "o" && b[y] === "o" && b[z] === "o") {
 				setWinner(p1 || "o");
+				return;
 			}
 		}
 
