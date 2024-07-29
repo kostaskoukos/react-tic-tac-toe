@@ -4,15 +4,17 @@ function Cell({
 	val,
 	onClick,
 	disabled,
+	colored,
 }: {
 	val?: "x" | "o";
 	onClick: () => void;
 	disabled: boolean;
+	colored: boolean;
 }) {
 	return (
 		<button
 			onClick={onClick}
-			className="bg-gray-200 text-4xl min-w-10 min-h-10 p-auto"
+			className={`${colored ? "bg-emerald-200" : "bg-gray-200"} text-4xl min-w-10 min-h-10 p-auto`}
 			disabled={disabled}
 		>
 			{val ? val : ""}
@@ -23,6 +25,9 @@ function Cell({
 export default function App() {
 	const [board, setBoard] = useState<Array<"x" | "o" | undefined>>(
 		Array(9).fill(undefined),
+	);
+	const [cellsColored, setCellsColored] = useState<Array<number>>(
+		Array(3).fill(false),
 	);
 
 	const [xTurn, setXTurn] = useState(false);
@@ -53,9 +58,11 @@ export default function App() {
 		for (let i = 0; i < winningLines.length; i++) {
 			const [x, y, z] = winningLines[i];
 			if (b[x] === "x" && b[y] === "x" && b[z] === "x") {
+				setCellsColored([x, y, z]);
 				setWinner(p2 || "x");
 				return;
 			} else if (b[x] === "o" && b[y] === "o" && b[z] === "o") {
+				setCellsColored([x, y, z]);
 				setWinner(p1 || "o");
 				return;
 			}
@@ -97,6 +104,7 @@ export default function App() {
 							val={v}
 							disabled={winner ? true : false}
 							onClick={() => handleClick(i)}
+							colored={cellsColored.includes(i)}
 						/>
 					))}
 				</div>
@@ -108,6 +116,7 @@ export default function App() {
 							onClick={() => {
 								setBoard(Array(9).fill(undefined));
 								setWinner(undefined);
+								setCellsColored([]);
 								setXTurn(false);
 							}}
 						>
